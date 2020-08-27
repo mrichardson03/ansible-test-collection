@@ -23,10 +23,12 @@ options:
     name:
         description:
             - This is the message to send to the test module
+        type: str
         required: true
     new:
         description:
             - Control to demo if the result of this module is changed
+        type: bool
         required: false
 '''
 
@@ -49,9 +51,12 @@ EXAMPLES = '''
 RETURN = '''
 original_message:
     description: The original name param that was passed in
+    returned: success
     type: str
 message:
-    description: THe output message that the sample module generates
+    description: The output message that the sample module generates
+    returned: success
+    type: str
 '''
 
 from ansible.module_utils.basic import AnsibleModule
