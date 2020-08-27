@@ -9,16 +9,16 @@ on:
       - alpha
   pull_request:
 
+defaults:
+  run:
+    working-directory: ./ansible_collections/mrichardson03/test_collection
+
 jobs:
   sanity:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: [3.8]
-
-    defaults:
-      run:
-        working-directory: ./ansible_collections/mrichardson03/test_collection
 
     steps:
       - uses: actions/checkout@v2
