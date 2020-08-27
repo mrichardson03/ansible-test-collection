@@ -113,10 +113,6 @@ jobs:
           GALAXY_API_KEY: ${{ secrets.GALAXY_API_KEY }}
         shell: bash
 
-      - name: Build collection
-        run: |
-          ansible-galaxy collection build
-
       - name: Create release and publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
