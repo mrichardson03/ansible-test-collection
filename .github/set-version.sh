@@ -28,7 +28,7 @@ if [ "$1" == "--help" ] || [ "$1" == "-h" ]; then
     exit 0
 fi
 
-NEW_VERSION=$(echo "$1" | sed -e 's/-beta\./.b/' | sed -e 's/-alpha\./.a/')
+# NEW_VERSION=$(echo "$1" | sed -e 's/-beta\./.b/' | sed -e 's/-alpha\./.a/')
 
 # Set version in galaxy.yml
 grep -E '^version: (.+)$' "$ROOT/galaxy.yml" >/dev/null
