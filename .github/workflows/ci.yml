@@ -105,6 +105,13 @@ jobs:
           pip install --upgrade pip
           pip install ansible
 
+      - name: Set up Galaxy auth
+        run: |
+          echo "token: $GALAXY_API_TOKEN" > ~/.ansible/galaxy_token
+        env:
+          GALAXY_API_TOKEN: ${{ secrets.GALAXY_API_TOKEN }}
+        shell: bash
+
       - name: Build collection
         run: |
           ansible-galaxy collection build
@@ -112,5 +119,4 @@ jobs:
       - name: Create release and publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GALAXY_API_TOKEN: ${{ secrets.GALAXY_API_TOKEN }}
         run: npx semantic-release
