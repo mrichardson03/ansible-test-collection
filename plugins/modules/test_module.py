@@ -4,6 +4,7 @@ from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 
 # This is a test breaking change.
+# This is the bug fix referenced in issue #2.
 
 ANSIBLE_METADATA = {
     'metadata_version': '1.1',
