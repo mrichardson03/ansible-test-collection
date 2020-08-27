@@ -105,6 +105,10 @@ jobs:
           pip install --upgrade pip
           pip install ansible
 
+      - name: Build collection
+        run: |
+          ansible-galaxy collection build
+
       - name: Create release and publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
