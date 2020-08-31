@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# Another breaking change for the beta branch.
+# Test bug fix.
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
