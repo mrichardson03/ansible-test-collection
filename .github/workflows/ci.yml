@@ -117,3 +117,35 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release
+
+  docs:
+    name: docs
+    needs: [sanity, build]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+
+      - name: Install documentation utils
+        run: |
+          pip install Sphinx sphinx-rtd-theme ansible-doc-extractor
+
+      - name: Generate documentation
+        run: |
+          cd docs
+          ansible-doc-extractor --template templates/module.rst.j2 source/modules ../plugins/modules/*.py
+          sphinx-build source html
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@3.6.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages # The branch the action should deploy to.
+          FOLDER: docs/html # The folder the action should deploy.
+          CLEAN: true # Automatically remove deleted files from the deploy branch
