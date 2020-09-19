@@ -118,7 +118,8 @@ jobs:
 
       - name: Install documentation utils
         run: |
-          pip install Sphinx sphinx-rtd-theme ansible-doc-extractor
+          pip install Sphinx sphinx-rtd-theme
+          pip install git+https://github.com/mrichardso03/ansible-doc-extractor.git
 
       - name: Generate documentation
         run: |
@@ -126,7 +127,6 @@ jobs:
           mkdir -p source/modules
           ansible-doc-extractor --template templates/module.rst.j2 source/modules ../plugins/modules/*.py
           sphinx-build source html
-          touch html/.nojekyll
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@3.6.1
