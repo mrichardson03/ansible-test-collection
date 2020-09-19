@@ -101,7 +101,6 @@ jobs:
             @semantic-release/exec@^5.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release
 
   docs:
     name: docs
