@@ -1,0 +1,94 @@
+.. _test_module_module:
+
+
+test_module -- A test module
+============================
+
+.. contents::
+   :local:
+   :depth: 1
+
+
+Synopsis
+--------
+
+This is a longer description of a test module
+
+
+
+
+
+
+
+Parameters
+----------
+
+  name (required, type: str)
+    This is the message to send to the test module
+
+
+  new (type: bool)
+    Control to demo if the result of this module is changed
+
+
+
+
+
+
+
+
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    # Pass in a message
+    - name: Test with a message
+      test_module:
+        name: hello world
+
+    - name: Test with a message and changed output
+      test_module:
+        name: hello world
+        new: true
+
+    - name: Fail the module
+      test_module:
+        name: fail me
+
+
+
+Return Values
+-------------
+
+original_message (success, str, )
+  The original name param that was passed in
+
+
+message (success, str, )
+  The output message that the sample module generates
+
+
+
+
+
+Status
+------
+
+
+
+
+- This module is not guaranteed to have a backwards compatible interface. *[preview]*
+
+
+- This module is maintained by community.
+
+
+
+Authors
+~~~~~~~
+
+- Michael Richardson (@mrichardson03)
+
