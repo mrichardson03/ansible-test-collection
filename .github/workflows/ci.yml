@@ -7,11 +7,9 @@ on:
       - develop
       - beta
       - alpha
+      - '[0-9]+.x'
+      - '[0-9]+.[0-9]+.x'
   pull_request:
-
-defaults:
-  run:
-    working-directory: ./ansible_collections/mrichardson03/test_collection
 
 jobs:
   sanity:
@@ -19,6 +17,10 @@ jobs:
     strategy:
       matrix:
         python-version: [3.8]
+
+    defaults:
+      run:
+        working-directory: ./ansible_collections/mrichardson03/test_collection
 
     steps:
       - uses: actions/checkout@v2
@@ -45,8 +47,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-        with:
-          path: ./ansible_collections/mrichardson03/test_collection
 
       - name: Set up Python 3.8
         uses: actions/setup-python@v1
@@ -64,36 +64,13 @@ jobs:
 
   release:
     name: release
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/beta' || github.ref == 'refs/heads/alpha')
+    if: github.event_name == 'push' && github.ref != 'refs/heads/develop'
     needs: [sanity, build]
     runs-on: ubuntu-18.04
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          path: ./ansible_collections/mrichardson03/test_collection
-
-      - name: Cache npm modules
-        uses: actions/cache@v1
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-global-install
-          restore-keys: |
-            ${{ runner.os }}-node-
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12
-
-      - name: Install semantic-release
-        run: |
-          npm install -g \
-          semantic-release@^17.0.4 \
-          @semantic-release/exec@^5.0.0 \
-          @semantic-release/git@^9.0.0 \
-          conventional-changelog-conventionalcommits@^4.2.3
 
       - name: Set up Python 3.8
         uses: actions/setup-python@v1
@@ -114,6 +91,14 @@ jobs:
         shell: bash
 
       - name: Create release and publish
+        id: release
+        uses: cycjimmy/semantic-release-action@v2
+        with:
+          semantic_version: 17.1.1
+          extra_plugins: |
+            conventional-changelog-conventionalcommits@^4.4.0
+            @semantic-release/git@^9.0.0
+            @semantic-release/exec@^5.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release
