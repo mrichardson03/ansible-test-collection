@@ -39,7 +39,7 @@ jobs:
 
       - name: ansible-test sanity
         run: |
-          ansible-test sanity
+          ansible-test sanity plugins/
 
   build:
     name: build
