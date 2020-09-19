@@ -119,7 +119,7 @@ jobs:
       - name: Install documentation utils
         run: |
           pip install Sphinx sphinx-rtd-theme
-          pip install git+https://github.com/mrichardso03/ansible-doc-extractor.git
+          pip install git+https://github.com/mrichardson03/ansible-doc-extractor.git
 
       - name: Generate documentation
         run: |
