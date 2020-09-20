@@ -36,4 +36,4 @@ sed -i.bak -E "s/^version: (.+)$/version: $1/" "$ROOT/galaxy.yml" && rm "$ROOT/g
 
 # Set version in docs/source/index.rst
 grep -E '^Version: (.+)$' "$ROOT/docs/source/index.rst" > /dev/null
-sed -i.bak -E "s/^Version: (.+)$/Version: $1/" "$ROOT/docs/source/index.rst" && rm "$ROOT/docs/source/index.rst"
+sed -i.bak -E "s/^Version: (.+)$/Version: $1/" "$ROOT/docs/source/index.rst" && rm "$ROOT/docs/source/index.rst.bak"
