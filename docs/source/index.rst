@@ -2,7 +2,7 @@
 Test Collection
 ===============
 
-Version: 3.1.3
+Version: 3.1.4
 
 .. toctree::
    :maxdepth: 2
