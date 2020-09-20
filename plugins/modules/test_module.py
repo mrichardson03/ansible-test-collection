@@ -33,6 +33,11 @@ options:
             - Control to demo if the result of this module is changed
         type: bool
         required: false
+    shiny:
+        description:
+            - Shiny new option to test the documentation.
+        type: bool
+        required: false
 '''
 
 EXAMPLES = '''
@@ -69,6 +74,7 @@ def main():
     module_args = dict(
         name=dict(type='str', required=True),
         new=dict(type='bool', required=False, default=False),
+        shiny=dict(type='bool', required=False, default=False),
     )
 
     module = AnsibleModule(
