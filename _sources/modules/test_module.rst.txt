@@ -31,6 +31,10 @@ Parameters
     Control to demo if the result of this module is changed
 
 
+  shiny (type: bool)
+    Shiny new option to test the documentation.
+
+
 
 
 
