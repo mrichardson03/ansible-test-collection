@@ -33,10 +33,21 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install sanity dependencies
+      - name: Restore cached pip libraries
+        id: cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-ansible-${{ matrix.ansible-version }}
+          restore-keys: |
+            ${{ runner.os }}-pip-ansible-${{ matrix.ansible-version }}
+
+      - name: Install pip libraries if needed
+        if: steps.cache.outputs.cache-hit != 'true'
         run: |
           python -m pip install --upgrade pip
-          pip install "ansible==${{ matrix.ansible-version }}" pycodestyle pylint voluptuous yamllint
+          pip install "ansible==${{ matrix.ansible-version }}"
+          pip install pycodestyle pylint voluptuous yamllint Sphinx sphinx-rtd-theme ansible-doc-extractor
 
       - name: ansible-test sanity
         run: |
@@ -54,10 +65,21 @@ jobs:
         with:
           python-version: 3.8
 
-      - name: Install Ansible
+      - name: Restore cached pip libraries
+        id: cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-ansible-${{ matrix.ansible-version }}
+          restore-keys: |
+            ${{ runner.os }}-pip-ansible-${{ matrix.ansible-version }}
+
+      - name: Install pip libraries if needed
+        if: steps.cache.outputs.cache-hit != 'true'
         run: |
           python -m pip install --upgrade pip
-          pip install ansible
+          pip install "ansible==${{ matrix.ansible-version }}"
+          pip install pycodestyle pylint voluptuous yamllint Sphinx sphinx-rtd-theme ansible-doc-extractor
 
       - name: Build collection
         run: |
