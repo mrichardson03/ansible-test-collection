@@ -35,7 +35,8 @@ jobs:
 
       - name: Install pip libraries if needed
         run: |
-          pip install pycodestyle pylint voluptuous yamllint Sphinx sphinx-rtd-theme ansible-doc-extractor
+          pip install "ansible==${{ matrix.ansible-version }}.*"
+          pip install pycodestyle pylint voluptuous yamllint
 
       - name: ansible-test sanity
         run: |
