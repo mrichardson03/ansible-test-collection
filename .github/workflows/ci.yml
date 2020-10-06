@@ -129,7 +129,7 @@ jobs:
           cd docs
           mkdir -p source/modules
           ansible-doc-extractor --template templates/module.rst.j2 source/modules ~/.ansible/collections/ansible_collections/mrichardson03/test_collection/plugins/modules/*.py
-          spinx-build source html
+          sphinx-build source html
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@3.6.1
