@@ -19,6 +19,7 @@ jobs:
         python-version: [3.8]
         ansible-version: ["2.9", "2.10"]
 
+
     defaults:
       run:
         working-directory: ./ansible_collections/mrichardson03/test_collection
