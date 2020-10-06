@@ -69,16 +69,16 @@ jobs:
     name: release
     if: github.event_name == 'push' && github.ref != 'refs/heads/develop'
     needs: [sanity, build]
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Set up Python 3.8
-        uses: actions/setup-python@v2.1.2
+      - name: Restore collection
+        uses: actions/download-artifact@v2
         with:
-          python-version: 3.8
+          name: collection
 
       - name: Set up Galaxy auth
         run: |
@@ -102,7 +102,8 @@ jobs:
 
   docs:
     name: docs
-    needs: build
+    if: github.event_name == 'push' && github.ref != 'refs/heads/develop'
+    needs: [release]
     runs-on: ubuntu-latest
 
     steps:
@@ -131,7 +132,7 @@ jobs:
         run: |
           cd docs
           mkdir -p source/modules
-          ansible-doc-extractor --template templates/module.rst.j2 source/modules ~/.ansible/collections/mrichardson03/test_collection/modules/*.py
+          ansible-doc-extractor --template templates/module.rst.j2 source/modules ~/.ansible/collections/ansible_collections/mrichardson03/test_collection/plugins/modules/*.py
           spinx-build source html
 
       # - name: Deploy to GitHub Pages
