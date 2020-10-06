@@ -17,7 +17,7 @@ jobs:
     strategy:
       matrix:
         python-version: [3.8]
-        ansible-version: [2.9, 2.10]
+        ansible-version: ["2.9", "2.10"]
 
     defaults:
       run:
@@ -70,9 +70,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-ansible-
+          key: ${{ runner.os }}-pip-ansible-2.10
           restore-keys: |
-            ${{ runner.os }}-pip-ansible-
+            ${{ runner.os }}-pip-ansible-2.10
 
       - name: Install pip libraries if needed
         if: steps.cache.outputs.cache-hit != 'true'
