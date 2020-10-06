@@ -1,7 +1,5 @@
 #!/usr/bin/python
 
-# Test commit for branch protection.
-
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 
@@ -17,7 +15,7 @@ module: test_module
 short_description: A test module
 author:
     - Michael Richardson (@mrichardson03)
-version_added: 2.9
+version_added: 1.0.0
 description:
     - This is a longer description of a test module
 
