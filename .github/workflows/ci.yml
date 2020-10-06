@@ -75,7 +75,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Restore collection
+      - name: Download built collection
         uses: actions/download-artifact@v2
         with:
           name: collection
@@ -102,8 +102,9 @@ jobs:
 
   docs:
     name: docs
-    if: github.event_name == 'push' && github.ref != 'refs/heads/develop'
-    needs: [release]
+    # if: github.event_name == 'push' && github.ref != 'refs/heads/develop'
+    # needs: [release]
+    needs: [build]
     runs-on: ubuntu-latest
 
     steps:
@@ -135,10 +136,10 @@ jobs:
           ansible-doc-extractor --template templates/module.rst.j2 source/modules ~/.ansible/collections/ansible_collections/mrichardson03/test_collection/plugins/modules/*.py
           spinx-build source html
 
-      # - name: Deploy to GitHub Pages
-      #   uses: JamesIves/github-pages-deploy-action@3.6.1
-      #   with:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     BRANCH: gh-pages # The branch the action should deploy to.
-      #     FOLDER: docs/html # The folder the action should deploy.
-      #     CLEAN: true # Automatically remove deleted files from the deploy branch
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@3.6.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages # The branch the action should deploy to.
+          FOLDER: docs/html # The folder the action should deploy.
+          CLEAN: true # Automatically remove deleted files from the deploy branch
