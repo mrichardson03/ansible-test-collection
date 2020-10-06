@@ -58,6 +58,13 @@ jobs:
         run: |
           ansible-galaxy collection build
 
+      - name: Store built collection
+        uses: actions/upload-artifact@v2
+        with:
+          name: collection
+          path: |
+            *.tar.gz
+
   release:
     name: release
     if: github.event_name == 'push' && github.ref != 'refs/heads/develop'
@@ -72,11 +79,6 @@ jobs:
         uses: actions/setup-python@v2.1.2
         with:
           python-version: 3.8
-
-      - name: Install Ansible
-        run: |
-          pip install --upgrade pip
-          pip install ansible
 
       - name: Set up Galaxy auth
         run: |
@@ -98,17 +100,39 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # - name: Install documentation utils
-      #   run: |
-      #     pip install Sphinx sphinx-rtd-theme
-      #     pip install git+https://github.com/mrichardson03/ansible-doc-extractor.git
+  docs:
+    name: docs
+    needs: build
+    runs-on: ubuntu-latest
 
-      # - name: Generate documentation
-      #   run: |
-      #     cd docs
-      #     mkdir -p source/modules
-      #     ansible-doc-extractor --template templates/module.rst.j2 source/modules ../plugins/modules/*.py
-      #     sphinx-build source html
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2.1.2
+        with:
+          python-version: 3.8
+
+      - name: Download built collection
+        uses: actions/download-artifact@v2
+        with:
+          name: collection
+
+      - name: Install built collection
+        run:
+          ansible-galaxy collection install *.tar.gz
+
+      - name: Install documentation utils
+        run: |
+          pip install Sphinx sphinx-rtd-theme ansible-doc-extractor
+
+      - name: Generate documentation
+        run: |
+          cd docs
+          mkdir -p source/modules
+          ansible-doc-extractor --template templates/module.rst.j2 source/modules ~/.ansible/collections/mrichardson03/test_collection/modules/*.py
+          spinx-build source html
 
       # - name: Deploy to GitHub Pages
       #   uses: JamesIves/github-pages-deploy-action@3.6.1
