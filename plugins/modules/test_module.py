@@ -29,11 +29,13 @@ options:
         description:
             - Control to demo if the result of this module is changed
         type: bool
+        default: False
         required: false
     shiny:
         description:
             - Shiny new option to test the documentation.
         type: bool
+        default: False
         required: false
 '''
 
